@@ -1,5 +1,3 @@
-مشکل از اینجاست که متن‌های Markdown بدون خط جدید (Newline) و فاصله کپی شده بودند و گیت‌هاب آن‌ها را به هم چسبانده است. متن اصلاح‌شده و مرتب‌شده‌ی زیر را کپی کن تا فرمت‌بندی جدول‌ها، لیست‌ها و هدرها درست نمایش داده شود:
-
 ```markdown
 # Risk-Aware BESS Optimization & Price Spike Classification Pipeline
 
