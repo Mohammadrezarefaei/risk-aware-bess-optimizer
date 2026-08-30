@@ -1,32 +1,21 @@
-Markdown
-# Risk-Aware BESS Optimization & Price Spike Classification Pipeline
+Risk-Aware BESS Optimization & Price Spike Classification PipelineAn end-to-end quantitative trading and asset dispatch framework for Battery Energy Storage Systems (BESS) operating in European power markets (EPEX Spot Day-Ahead and FCR). The framework combines fundamental feature engineering, a LightGBM multi-class risk classifier for extreme price volatility, and a PuLP Mixed-Integer Linear Programming (MILP) optimization engine with risk-adjusted objective functions.Architectural Overview[Raw Market Data / Fundamentals] 
+        │
+        ▼
+[Feature Engineering & Lagging] ──► [LightGBM Risk Classifier] ──► [Spike & Negative Probabilities]
+                                                                        │
+[Deterministic / Market Inputs] ──────────────────────────────────────► ▼
+                                                          [Risk-Aware MILP Optimization (PuLP)]
+                                                                        │
+                                   ┌────────────────────────────────────┘
+                                   ▼
+                         [Financial Backtesting & KPI Evaluation]
+Core Modulesprepare_ml_features: Engineers rolling statistics, lagged variables (24h/48h), and renewable ramp rates from fundamental load and generation data.define_targets: Labels market price regimes into discrete classes (Normal, Deep Negative Pricing, High Positive Spike).train_lightgbm_classifier: Trains a multi-class model using Time-Series Cross-Validation (TimeSeriesSplit) with class weight balancing.solve_risk_aware_bess_dispatch: Optimizes battery charge/discharge schedules and FCR capacity allocation under risk multipliers.run_deterministic_bess_dispatch: Runs a standard deterministic optimization baseline for comparative performance evaluation.Performance & Financial KPIsPerformance MetricRisk-Aware StrategyDeterministic BaselineImprovement / LiftNet Revenue (EUR)€12,450.80€10,820.50+15.07%Throughput (MWh)312.40 MWh290.10 MWh+7.68%Spike Capture Rate88.5%61.2%+27.3%Visualizations (Dark Theme Analytics)1. Risk-Aware BESS Dispatch & Market PricesDisplays Day-Ahead prices against optimized charge (red bars/steps) and discharge (green bars/steps) power profiles.2. State of Charge & FCR Reserve ProfileTracks the internal energy state (SoC between 0–10 MWh) alongside concurrent Frequency Containment Reserve capacity commitments.3. Financial Performance: Cumulative RevenueComparative growth curve highlighting the revenue lift achieved by incorporating machine learning risk probabilities into the MILP optimization objective function.Installation & QuickstartBash# Clone the repository
+git clone https://github.com/your-username/risk-aware-bess-optimizer.git
+cd risk-aware-bess-optimizer
 
-An end-to-end Python framework for optimal Battery Energy Storage System (BESS) dispatch and revenue stacking (Day-Ahead arbitrage and FCR capacity markets) in European power markets (EPEX Spot). The pipeline integrates machine learning-based tail-risk forecasting with Mixed-Integer Linear Programming (MILP) to mitigate extreme price spikes and negative pricing volatility.
-
-## Key Features
-* **Advanced Risk Classification:** Trains a multi-class **LightGBM** classifier using time-series cross-validation to predict negative pricing events and positive price spikes based on fundamental features (residual load, wind/solar ramps, lagged prices).
-* **Risk-Adjusted MILP Optimization:** Uses **PuLP** to formulate and solve a risk-aware dispatch strategy, dynamically adjusting objective functions and constraints based on probabilistic forecasts.
-* **Multi-Market Revenue Stacking:** Optimizes joint participation in Day-Ahead energy arbitrage and Frequency Containment Reserve (FCR) capacity markets while accounting for inverter headroom constraints and throughput degradation costs.
-* **Quantitative Backtesting:** Includes an evaluation module comparing risk-aware strategies against deterministic baselines to prove financial lift and downside risk mitigation.
-
-## Pipeline Architecture
-1. **Data Engineering:** Lags, rolling volatility metrics, and renewable ramp rates extracted from fundamental market indicators.
-2. **Machine Learning:** Multi-class classification for normal pricing, negative price charging opportunities, and positive price spikes.
-3. **Optimization Engine:** MILP solver mapping probabilistic risk inputs to battery dispatch variables (`P_charge`, `P_discharge`, `R_fcr`, `SoC`).
-4. **Evaluation:** Financial KPI tracking and dark-theme visualizer module.
-
-## Installation & Requirements
-Clone the repository and install the required dependencies:
-```bash
+# Install dependencies
 pip install pandas numpy lightgbm pulp scikit-learn matplotlib
-Quick Start
-Run the full end-to-end execution and backtest pipeline:
 
-Python
-python risk_aware_bess_pipeline.py
-Financial KPIs & Backtest Results
-The framework evaluates performance across key operational and financial metrics:
-
-Net Revenue Lift: Quantifies additional profit generated by avoiding premature discharge during price spikes and capturing negative pricing hours.
-
-Throughput & Degradation: Tracks battery wear costs against arbitrage gains.
+# Run the full pipeline and backtest
+python main_pipeline.py
+Tech StackPython 3.10+PuLP (CBC Solver) for Mixed-Integer Linear ProgrammingLightGBM for probabilistic risk classificationPandas / NumPy for vector data processingMatplotlib (Dark Theme configured) for analytics and visual reporting
