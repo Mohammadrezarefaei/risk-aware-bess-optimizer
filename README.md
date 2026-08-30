@@ -1,4 +1,4 @@
-Markdown# Risk-Aware BESS Optimization & Price Spike Classification Pipeline
+# Risk-Aware BESS Optimization & Price Spike Classification Pipeline
 
 An end-to-end quantitative trading and asset dispatch framework for Battery Energy Storage Systems (BESS) operating in European power markets (EPEX Spot Day-Ahead and FCR). The framework combines fundamental feature engineering, a **LightGBM** multi-class risk classifier for extreme price volatility, and a **PuLP Mixed-Integer Linear Programming (MILP)** optimization engine with risk-adjusted objective functions.
 
