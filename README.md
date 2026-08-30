@@ -23,5 +23,24 @@ An end-to-end quantitative trading and asset dispatch framework for Battery Ener
 
 ### 2. Live BESS Dispatch Animation
 <p align="center">
+  ---
+
+## Core Modules & Methodology
+
+* **`prepare_ml_features`**: Engineers rolling statistics, lagged variables (24h/48h), and renewable ramp rates from fundamental load and generation data.
+* **`define_targets`**: Labels market price regimes into discrete classes (Normal, Deep Negative Pricing, High Positive Spike).
+* **`train_lightgbm_classifier`**: Trains a multi-class model using Time-Series Cross-Validation (`TimeSeriesSplit`) with class weight balancing.
+* **`solve_risk_aware_bess_dispatch`**: Optimizes battery charge/discharge schedules and FCR capacity allocation under risk multipliers.
+* **`run_deterministic_bess_dispatch`**: Runs a standard deterministic optimization baseline for comparative performance evaluation.
+
+---
+
+## Tech Stack
+
+* **Python 3.10+**
+* **PuLP (CBC Solver)** for Mixed-Integer Linear Programming
+* **LightGBM** for probabilistic risk classification
+* **Pandas / NumPy** for vector data processing
+* **Matplotlib & Pillow** (Dark Theme configured) for animated GIFs and analytics reporting
   <img src="./bess_dispatch_dark.gif" alt="Live BESS Dispatch Animation">
 </p>
