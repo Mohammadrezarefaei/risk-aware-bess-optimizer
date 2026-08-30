@@ -23,6 +23,9 @@ An end-to-end quantitative trading and asset dispatch framework for Battery Ener
 
 ### 2. Live BESS Dispatch Animation
 <p align="center">
+
+  <img src="./bess_dispatch_dark.gif" alt="Live BESS Dispatch Animation">
+</p>
   ---
 
 ## Core Modules & Methodology
@@ -42,5 +45,3 @@ An end-to-end quantitative trading and asset dispatch framework for Battery Ener
 * **LightGBM** for probabilistic risk classification
 * **Pandas / NumPy** for vector data processing
 * **Matplotlib & Pillow** (Dark Theme configured) for animated GIFs and analytics reporting
-  <img src="./bess_dispatch_dark.gif" alt="Live BESS Dispatch Animation">
-</p>
