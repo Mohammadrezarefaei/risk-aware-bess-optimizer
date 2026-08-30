@@ -6,14 +6,18 @@ An end-to-end quantitative trading and asset dispatch framework for Battery Ener
 
 ## Architectural Overview
 
-```mermaid
-graph TD
-    A[Raw Market Data / Fundamentals] --> B[Feature Engineering & Lagging]
-    B --> C[LightGBM Risk Classifier]
-    C --> D[Spike & Negative Probabilities]
-    E[Deterministic / Market Inputs] --> F[Risk-Aware MILP Optimization]
-    D --> F
-    F --> G[Financial Backtesting & KPI Evaluation]
+```text
+[Raw Market Data & Fundamentals] 
+             │
+             ▼
+[Feature Engineering & Lagging] ──► [LightGBM Risk Classifier] ──► [Spike & Negative Probabilities]
+                                                                        │
+[Deterministic & Market Inputs] ──────────────────────────────────────► ▼
+                                                          [Risk-Aware MILP Optimization (PuLP)]
+                                                                        │
+                                   ┌────────────────────────────────────┘
+                                   ▼
+                         [Financial Backtesting & KPI Evaluation]
 Core Modules & Methodologyprepare_ml_features: Engineers rolling statistics, lagged variables (24h/48h), and renewable ramp rates from fundamental load and generation data.define_targets: Labels market price regimes into discrete classes (Normal, Deep Negative Pricing, High Positive Spike).train_lightgbm_classifier: Trains a multi-class model using Time-Series Cross-Validation (TimeSeriesSplit) with class weight balancing.solve_risk_aware_bess_dispatch: Optimizes battery charge/discharge schedules and FCR capacity allocation under risk multipliers.run_deterministic_bess_dispatch: Runs a standard deterministic optimization baseline for comparative performance evaluation.Performance & Financial KPIsPerformance MetricRisk-Aware StrategyDeterministic BaselineImprovement / LiftNet Revenue (EUR)€12,450.80€10,820.50+15.07%Throughput (MWh)312.40 MWh290.10 MWh+7.68%Spike Capture Rate88.5%61.2%+27.3%Visualizations (Dark Theme Analytics)Risk-Aware BESS Dispatch & Market PricesDisplays Day-Ahead prices against optimized charge (red steps) and discharge (green steps) power profiles.State of Charge & FCR Reserve ProfileTracks the internal energy state (SoC between 0–10 MWh) alongside concurrent Frequency Containment Reserve capacity commitments.Financial Performance: Cumulative RevenueComparative growth curve highlighting the revenue lift achieved by incorporating machine learning risk probabilities into the MILP optimization objective function.Installation & QuickstartBash# Clone the repository
 git clone [https://github.com/your-username/risk-aware-bess-optimizer.git](https://github.com/your-username/risk-aware-bess-optimizer.git)
 cd risk-aware-bess-optimizer
